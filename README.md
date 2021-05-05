@@ -13,8 +13,14 @@ pip install -U "oboder @ git+https://github.com/aedera/oboder.git"
 
 ```python
 import oboder
+
+# read a given obo file
 go = oboder.read('data/go.obo')
 
 # get ancestors of a given GO term
-go.get_ancestor_set('GO:0017011')
+anc = go.get_ancestor_set('GO:0017011')
+
+# loop over the terms in the obo file
+for t in go.ont.keys():
+  print(go.ont[t])
 ```
