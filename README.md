@@ -1,15 +1,15 @@
 # Oboder
 
-Oboder is a very small python library containing an OBO file reaDER.
+Oboder is a very small python library implementing an OBO file reaDER.
 
 
-# Installation
+## Installation
 
 ```bash
-pip install -U oboder @ git+https://github.com/aedera/oboder.git"
+pip install -U "oboder @ git+https://github.com/aedera/oboder.git"
 ```
 
-# Usage
+## Usage
 
 ```python
 import oboder
