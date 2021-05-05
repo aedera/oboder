@@ -1,1 +1,1 @@
-from .reader import Ontology
+from .reader import read
