@@ -17,8 +17,11 @@ import oboder
 # read a given obo file
 go = oboder.read('data/go.obo')
 
-# get ancestors of a given GO term
+# get a set containing ancestors of a given GO term
 anc = go.get_ancestor_set('GO:0017011')
+
+# get a list where each element is a branch of ancestors
+branches = go.get_ancestors('GO:0017011')
 
 # loop over the terms in the obo file
 for t in go.ont.keys():
