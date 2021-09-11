@@ -1,6 +1,6 @@
 # Oboder
 
-A extremely small library implementing an OBO file reaDER.
+An extremely small python library implementing an OBO file reaDER.
 
 
 ## Installation
