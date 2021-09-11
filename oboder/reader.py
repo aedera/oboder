@@ -28,6 +28,17 @@ namespace2go = {
     'biological_process': BIOLOGICAL_PROCESS
 }
 
+_allrels=[
+    'is_a',
+    'part_of',
+    'regulates',
+    'negatively_regulates',
+    'positively_regulates',
+    'occurs_in',
+    'ends_during',
+    'happens_during'
+]
+
 class Ontology(object):
     def __init__(self, filename='data/go.obo', with_rels=False, remove_obs=True, include_alt_ids=True):
         """
@@ -125,28 +136,41 @@ class Ontology(object):
                 self.leaves.append(term_id)
         return ont
 
-    def get_ancestors(self, term_id):
+    def get_ancestors(self, term_id, rels=_allrels):
         if term_id not in self.ont:
             return set()
-#                  set(self.ont[term_id]['has_part'])
-        parents = set(self.ont[term_id]['is_a']) | \
-                  set(self.ont[term_id]['part_of']) | \
-                  set(self.ont[term_id]['regulates']) | \
-                  set(self.ont[term_id]['negatively_regulates']) | \
-                  set(self.ont[term_id]['positively_regulates']) | \
-                  set(self.ont[term_id]['occurs_in']) | \
-                  set(self.ont[term_id]['ends_during']) | \
-                  set(self.ont[term_id]['happens_during'])
+
+        # get parents for each specified relation
+        parents = set({})
+        for r in rels:
+            parents |= set(self.ont[term_id][r])
+
+        # return input term if no parents found
         if len(parents) < 1:
             return [[term_id]]
+
+        # recursive call for each parent found
         branches = []
         for parent_id in parents:
             branches += [ b + [term_id] for b in self.get_ancestors(parent_id) ]
+
         return branches
 
-    def get_ancestor_set(self, term_id):
-        ancestors = self.get_ancestors(term_id)
+    def get_ancestor_set(self, term_id, rels=_allrels):
+        """Set containing all the ancestors of term_id for the given rels.
+
+        Args
+        ----
+        term_id: GO term
+        rels: a list of GO relationships: is_a, part_of, etc.
+
+        Output
+        ------
+        A python set containing ancestors.
+        """
+        ancestors = self.get_ancestors(term_id, rels)
         ancestors = [set(a) for a in ancestors]
+
         return set.union(*ancestors)
 
     def get_namespace_terms(self, namespace):
