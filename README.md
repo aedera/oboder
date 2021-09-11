@@ -1,6 +1,6 @@
 # Oboder
 
-Oboder is a very small python library implementing an OBO file reaDER.
+A extremely small library implementing an OBO file reaDER.
 
 
 ## Installation
@@ -40,7 +40,8 @@ go.ont['GO:0019538']
 this returns a dict with the following information of the term 'GO:0019538'
 
 ```
-{'is_a': ['GO:0043170', 'GO:0044238'],
+{
+'is_a': ['GO:0043170', 'GO:0044238'],
 'part_of': [],
 'has_part': [],
 'regulates': [],
