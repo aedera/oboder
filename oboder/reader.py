@@ -43,6 +43,10 @@ class Ontology(object):
         self.remove_obs = remove_obs
         self.include_alt_ids = include_alt_ids
         self.leaves = []
+
+        # mapping from alternative GO term to their corresponding reference terms
+        self.alt2ref = {}
+
         self.ont = self.load_data(filename, with_rels)
 
     def load_data(self, filename, with_rels):
@@ -80,10 +84,11 @@ class Ontology(object):
                     if l[0] == 'id':
                         obj['id'] = l[1]
                     elif l[0] == 'alt_id':
-                        obj['alt_ids'].add(l[1])
-                        #breakpoint()
-                       # avoid storing the main id as alternative id
-                        # obj['alt_ids'] -= set([obj['id']])
+                        alt_term = l[1]
+
+                        obj['alt_ids'].add(alt_term)
+
+                        self.alt2ref[alt_term] = obj['id']
                     elif l[0] == 'namespace':
                         obj['namespace'] = l[1]
                     elif l[0] == 'is_a':
@@ -93,9 +98,6 @@ class Ontology(object):
                         rel_type = it[0]
                         term_in_rel = it[1]
                         obj[rel_type].append(term_in_rel)
-                        #breakpoint()
-                        # add all types of relationships
-                        #obj['is_a'].append(it[1])
                     elif l[0] == 'name':
                         obj['name'] = l[1]
                     elif l[0] == 'is_obsolete' and l[1] == 'true':
@@ -109,12 +111,7 @@ class Ontology(object):
                     ont[t_id] = ont[term_id]
             if self.remove_obs and ont[term_id]['is_obsolete']:
                 del ont[term_id]
-        #
-        # REMOVE PART OF ONTOLOGY
-        # for term_id in list(ont.keys()):
-        #     if ont[term_id]['namespace'] != 'cellular_component':
-        #         del ont[term_id]
-        #
+
         for term_id, val in ont.items():
             if 'children' not in val:
                 val['children'] = set()
@@ -123,6 +120,7 @@ class Ontology(object):
                     if 'children' not in ont[p_id]:
                         ont[p_id]['children'] = set()
                     ont[p_id]['children'].add(term_id)
+
         # generate leaves
         for term_id, val in ont.items():
             if len(val['children']) == 0: # no children
@@ -130,6 +128,12 @@ class Ontology(object):
                 #self.leaves[root_id].add(term_id)
                 self.leaves.append(term_id)
         return ont
+
+    def get_refterm(self, altterm_id):
+        if altterm_id not in self.alt2ref:
+            return None
+        else:
+            self.alt2ref[alterm_id]
 
     def get_ancestors(self, term_id, rels=_allrels):
         if term_id not in self.ont:
