@@ -66,3 +66,10 @@ reference term of an alternative id can be retrieved with this command
 ```python
 go.get_refterm('GO:0006411')
 ```
+
+Alternative terms can be included when reading an obo file by using the
+argument `include_alt_ids`
+
+```python
+go = oboder.read('data/go.obo', include_alt_ids=True)
+```
