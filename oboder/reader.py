@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-#import sys
-#import gzip
-
-#from collections import deque, Counter
-#import math
 
 # root terms
 BIOLOGICAL_PROCESS = 'GO:0008150'
@@ -195,8 +190,14 @@ def read(obo_path,
          with_rels=False,
          remove_obs=False,
          include_alt_ids=False):
-    """This method reads an obo file whose information is encapsulated by an
-    instance of the class Ontology.
+    """
+    Args
+    ----
+
+    obo_path:   path to OBO file
+    with_rels:  includes non-is-a GO relationships
+    remove_obs: remove obsolete terms
+    include_alt_ids: include alternative ids as valid GO terms
     """
     go = Ontology(obo_path,
                   with_rels=with_rels,
