@@ -175,16 +175,23 @@ class Ontology(object):
                 terms.add(go_id)
         return terms
 
-    def get_parents(self, term_id):
-        return set(self.ont[term_id]['is_a']) | \
-            set(self.ont[term_id]['part_of']) | \
-            set(self.ont[term_id]['has_part']) | \
-            set(self.ont[term_id]['regulates']) | \
-            set(self.ont[term_id]['negatively_regulates']) | \
-            set(self.ont[term_id]['positively_regulates']) | \
-            set(self.ont[term_id]['occurs_in']) | \
-            set(self.ont[term_id]['ends_during']) | \
-            set(self.ont[term_id]['happens_during'])
+    def get_parents(self, term_id, rels=_allrels):
+        """
+        Obtain the parents of a given GO term.
+
+        Args
+        ----
+
+        term_id: a GO term
+        rels:    list of GO relationships used for retrieving parents
+        """
+
+        parents = set({})
+
+        for r in rels:
+            parents |= set(self.ont[term_id][r])
+
+        return parents
 #
 def read(obo_path,
          with_rels=False,
