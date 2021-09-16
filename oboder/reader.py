@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# This file takes as inspiration the code available in the following link:
+# https://github.com/bio-ontology-research-group/deepgoplus/blob/master/utils.py
+
 # root terms
 BIOLOGICAL_PROCESS = 'GO:0008150'
 MOLECULAR_FUNCTION = 'GO:0003674'
