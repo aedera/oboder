@@ -130,10 +130,9 @@ class Ontology(object):
         return ont
 
     def get_refterm(self, alt_id):
-        if alt_id not in self.alt2ref:
-            return None
-        else:
-            self.alt2ref[alt_id]
+        refterm = self.alt2ref[alt_id] if alt_id in self.alt2ref else None
+
+        return refterm
 
     def get_ancestors(self, term_id, rels=_allrels):
         if term_id not in self.ont:
