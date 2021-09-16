@@ -29,6 +29,7 @@ branches = go.get_ancestors('GO:0017011')
 # loop over the terms in the obo file
 for t in go.ont.keys():
   print(go.ont[t])
+
 ```
 
 In addition, oboder can be used to explore an OBO file, for example, by exploring
@@ -37,7 +38,7 @@ specific GO terms.
 ```python
 go.ont['GO:0019538']
 ```
-this returns a dict with the following information of the term 'GO:0019538'
+this returns a dict with the following information of the term with id 'GO:0019538'
 
 ```
 {
@@ -57,4 +58,11 @@ this returns a dict with the following information of the term 'GO:0019538'
 'namespace': 'biological_process',
 'children': {'GO:0045558', 'GO:1901142', ..., 'GO:0072376'}
 }
+```
+
+Note that this term has alternative ids, indicated with the key `alt_ids`. The
+reference term of an alternative id can be retrieved with this command
+
+```python
+go.get_refterm('GO:0006411')
 ```
