@@ -60,7 +60,7 @@ this returns a dict with the following information of the term with id 'GO:00195
 }
 ```
 
-Note that this term has alternative ids, indicated with the key `alt_ids`. The
+Note that this term has alternative ids, indicated by the key `alt_ids`. The
 reference term of an alternative id can be retrieved with this command
 
 ```python
